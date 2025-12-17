@@ -172,6 +172,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             });
           if (applicationError) throw applicationError;
         }
+
+        // Auto-login after successful signup
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (signInError) throw signInError;
+
+        // Fetch updated user data
+        await fetchUserData(data.user.id);
       }
 
       return { error: null };

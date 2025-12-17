@@ -80,10 +80,30 @@ const BusinessApplication = () => {
         return;
       }
 
-      // Load existing application data if available
-      if (businessApplication?.application_data) {
-        setFormData(businessApplication.application_data as BusinessApplicationData);
-      }
+      // Load existing business profile data if available
+      const loadBusinessProfile = async () => {
+        if (!user) return;
+        const { data: businessData } = await supabase
+          .from('businesses')
+          .select('id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (businessData) {
+          const { data: profileData } = await supabase
+            .from('business_profiles')
+            .select('*')
+            .eq('business_id', businessData.id)
+            .maybeSingle();
+
+          if (profileData) {
+            const { created_at, updated_at, id, business_id, ...formFields } = profileData;
+            setFormData(prev => ({ ...prev, ...formFields }));
+          }
+        }
+      };
+
+      loadBusinessProfile();
     }
   }, [user, dbUser, businessApplication, isLoading, navigate]);
 
@@ -157,14 +177,23 @@ const BusinessApplication = () => {
 
       if (!businessData) throw new Error('Business not found');
 
-      // Update business application with form data
+      // Check if profile exists
+      const { data: existingProfile } = await supabase
+        .from('business_profiles')
+        .select('id')
+        .eq('business_id', businessData.id)
+        .maybeSingle();
+
+      // Upsert business profile with form data
       const { error } = await supabase
-        .from('business_applications')
-        .update({
-          application_data: formData,
-          status: 'pending'
-        })
-        .eq('business_id', businessData.id);
+        .from('business_profiles')
+        .upsert({
+          business_id: businessData.id,
+          ...formData,
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'business_id'
+        });
 
       if (error) throw error;
 
@@ -194,7 +223,7 @@ const BusinessApplication = () => {
   }
 
   // Show pending status if application already submitted
-  if (businessApplication?.application_data && businessApplication.status === 'pending') {
+  if (businessApplication?.status === 'pending') {
     return (
       <div className="min-h-screen bg-muted/30 p-6">
         <div className="max-w-2xl mx-auto">
