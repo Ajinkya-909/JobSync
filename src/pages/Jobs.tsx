@@ -209,7 +209,14 @@ const Jobs = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {dbUser && (
+              {!dbUser ? (
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/">
+                    <ChevronLeft className="h-4 w-4 mr-1" />
+                    Home
+                  </Link>
+                </Button>
+              ) : (
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/dashboard">
                     <ChevronLeft className="h-4 w-4 mr-1" />

@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Loader2, MapPin, Clock, Briefcase, Building2, ChevronLeft,
-  Bookmark, BookmarkCheck, Send, CheckCircle2, Calendar
+  Bookmark, BookmarkCheck, Send, CheckCircle2, Calendar,
+  AlertCircle
 } from 'lucide-react';
 
 interface Job {
@@ -325,9 +327,21 @@ const JobDetail = () => {
 
           {/* Sidebar */}
           <div className="space-y-4">
+            {/* Login prompt for unauthenticated users */}
+            {!user && (
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  <Link to="/auth" className="font-medium underline">
+                    Sign in
+                  </Link>{' '}
+                  to apply for jobs and save your favorite listings.
+                </AlertDescription>
+              </Alert>
+            )}
+            
             <Card>
-              <CardContent className="pt-6">
-                {hasApplied ? (
+              <CardContent className="pt-6">{hasApplied ? (
                   <div className="text-center py-4">
                     <CheckCircle2 className="h-12 w-12 text-success mx-auto mb-3" />
                     <h3 className="font-semibold text-lg">Already Applied</h3>
