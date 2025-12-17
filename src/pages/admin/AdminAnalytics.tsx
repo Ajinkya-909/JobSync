@@ -112,21 +112,21 @@ const AdminAnalytics = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'accepted': return 'bg-green-500';
-      case 'rejected': return 'bg-red-500';
-      case 'reviewing': return 'bg-yellow-500';
-      case 'pending': return 'bg-blue-500';
-      case 'withdrawn': return 'bg-gray-500';
-      default: return 'bg-gray-400';
+      case 'accepted': return 'bg-success';
+      case 'rejected': return 'bg-destructive';
+      case 'reviewing': return 'bg-warning';
+      case 'pending': return 'bg-info';
+      case 'withdrawn': return 'bg-muted-foreground';
+      default: return 'bg-muted-foreground';
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'full-time': return 'bg-blue-500';
-      case 'internship': return 'bg-purple-500';
-      case 'contract': return 'bg-orange-500';
-      default: return 'bg-gray-400';
+      case 'full-time': return 'bg-info';
+      case 'internship': return 'bg-purple';
+      case 'contract': return 'bg-orange';
+      default: return 'bg-muted-foreground';
     }
   };
 
@@ -171,15 +171,15 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Overview Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Businesses</p>
-                <p className="text-2xl font-bold">{analytics.totalBusinesses}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total Businesses</p>
+                <p className="text-lg md:text-2xl font-bold">{analytics.totalBusinesses}</p>
                 {analytics.pendingBusinesses > 0 && (
-                  <p className="text-xs text-amber-600 mt-1">
+                  <p className="text-xs text-warning-muted-foreground mt-1">
                     {analytics.pendingBusinesses} pending review
                   </p>
                 )}
@@ -193,9 +193,9 @@ const AdminAnalytics = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Jobs</p>
-                <p className="text-2xl font-bold">{analytics.totalJobs}</p>
-                <p className="text-xs text-green-600 mt-1">
+                <p className="text-xs md:text-sm text-muted-foreground">Total Jobs</p>
+                <p className="text-lg md:text-2xl font-bold">{analytics.totalJobs}</p>
+                <p className="text-xs text-success mt-1">
                   {analytics.activeJobs} active
                 </p>
               </div>
@@ -208,8 +208,8 @@ const AdminAnalytics = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Employees</p>
-                <p className="text-2xl font-bold">{analytics.totalEmployees}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total Employees</p>
+                <p className="text-lg md:text-2xl font-bold">{analytics.totalEmployees}</p>
               </div>
               <Users className="h-8 w-8 text-muted-foreground" />
             </div>
@@ -220,8 +220,8 @@ const AdminAnalytics = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Applications</p>
-                <p className="text-2xl font-bold">{analytics.totalApplications}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total Applications</p>
+                <p className="text-lg md:text-2xl font-bold">{analytics.totalApplications}</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   ~{analytics.avgApplicationsPerJob} per job
                 </p>
@@ -338,7 +338,7 @@ const AdminAnalytics = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-4 border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <TrendingUp className="h-4 w-4 text-green-500" />
+                <TrendingUp className="h-4 w-4 text-success" />
                 <span className="text-sm font-medium">Job Activation Rate</span>
               </div>
               <p className="text-2xl font-bold">
@@ -353,7 +353,7 @@ const AdminAnalytics = () => {
 
             <div className="p-4 border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Users className="h-4 w-4 text-blue-500" />
+                <Users className="h-4 w-4 text-info" />
                 <span className="text-sm font-medium">Avg Applications/Job</span>
               </div>
               <p className="text-2xl font-bold">{analytics.avgApplicationsPerJob}</p>
@@ -365,9 +365,9 @@ const AdminAnalytics = () => {
             <div className="p-4 border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 {analytics.pendingBusinesses > 5 ? (
-                  <TrendingDown className="h-4 w-4 text-amber-500" />
+                  <TrendingDown className="h-4 w-4 text-warning" />
                 ) : (
-                  <TrendingUp className="h-4 w-4 text-green-500" />
+                  <TrendingUp className="h-4 w-4 text-success" />
                 )}
                 <span className="text-sm font-medium">Pending Reviews</span>
               </div>

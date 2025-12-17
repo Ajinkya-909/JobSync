@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import {
   LayoutDashboard,
@@ -17,12 +18,16 @@ import {
   BarChart3,
   CheckCircle2,
   Clock,
-  MessageSquare
+  MessageSquare,
+  Sun,
+  Moon,
+  Monitor
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Sidebar = () => {
   const { user, dbUser, signOut } = useAuth();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -51,7 +56,7 @@ const Sidebar = () => {
         <>
           <span className="text-sm font-medium">{label}</span>
           {badge && (
-            <span className="ml-auto text-xs bg-red-500 text-white px-2 py-1 rounded-full">
+            <span className="ml-auto text-xs bg-destructive text-destructive-foreground px-2 py-1 rounded-full">
               {badge}
             </span>
           )}
@@ -74,7 +79,10 @@ const Sidebar = () => {
     <>
       {/* Mobile Toggle Button */}
       <div className="fixed top-0 left-0 right-0 z-40 bg-background border-b md:hidden flex items-center justify-between px-4 py-3">
-        <h1 className="font-bold text-lg">JobSync</h1>
+        <div className="flex items-center gap-2">
+          <img src="/icon.svg" alt="JobSync" className="h-8 w-8" />
+          <h1 className="font-bold text-lg">JobSync</h1>
+        </div>
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="p-2 hover:bg-muted rounded-lg"
@@ -94,7 +102,12 @@ const Sidebar = () => {
       >
         {/* Header */}
         <div className="p-6 border-b flex items-center justify-between sticky top-0 bg-background">
-          {isOpen && <h1 className="font-bold text-xl">JobSync</h1>}
+          {isOpen && (
+            <div className="flex items-center gap-2">
+              <img src="/icon.svg" alt="JobSync" className="h-8 w-8" />
+              <h1 className="font-bold text-xl">JobSync</h1>
+            </div>
+          )}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 hover:bg-muted rounded-lg hidden md:block"
@@ -244,6 +257,42 @@ const Sidebar = () => {
 
         {/* Footer with User Info & Logout */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-background">
+          {/* Theme Toggle */}
+          <div className={cn('flex items-center gap-2 px-3 py-2', !isOpen && 'justify-center')}>
+            {isOpen && <span className="text-xs text-muted-foreground">Theme</span>}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setTheme('light')}
+                className={cn(
+                  'p-1.5 rounded-md transition-colors',
+                  theme === 'light' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                )}
+                title="Light mode"
+              >
+                <Sun className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setTheme('dark')}
+                className={cn(
+                  'p-1.5 rounded-md transition-colors',
+                  theme === 'dark' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                )}
+                title="Dark mode"
+              >
+                <Moon className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setTheme('system')}
+                className={cn(
+                  'p-1.5 rounded-md transition-colors',
+                  theme === 'system' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                )}
+                title="System theme"
+              >
+                <Monitor className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
           {isOpen && (
             <div className="px-3 py-2 bg-muted rounded-lg text-sm truncate">
               <p className="font-medium text-foreground truncate">{dbUser?.email}</p>

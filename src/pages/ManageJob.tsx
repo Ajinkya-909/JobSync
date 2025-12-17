@@ -191,7 +191,7 @@ const ManageJob = () => {
       case 'applied':
         return <Badge variant="secondary"><Clock className="w-3 h-3 mr-1" />Pending</Badge>;
       case 'shortlisted':
-        return <Badge className="bg-green-500 hover:bg-green-600"><CheckCircle2 className="w-3 h-3 mr-1" />Shortlisted</Badge>;
+        return <Badge className="bg-success hover:bg-success/90"><CheckCircle2 className="w-3 h-3 mr-1" />Shortlisted</Badge>;
       case 'rejected':
         return <Badge variant="destructive"><XCircle className="w-3 h-3 mr-1" />Rejected</Badge>;
       default:
@@ -238,7 +238,7 @@ const ManageJob = () => {
                 <CardTitle className="text-2xl flex items-center gap-2">
                   {job.title}
                   {job.is_active ? (
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
+                    <Badge variant="outline" className="bg-success-muted text-success-muted-foreground border-success/20">Active</Badge>
                   ) : (
                     <Badge variant="outline">Inactive</Badge>
                   )}
@@ -281,12 +281,12 @@ const ManageJob = () => {
                 <p className="text-2xl font-bold">{pendingApps.length}</p>
                 <p className="text-sm text-muted-foreground">Pending Review</p>
               </div>
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <p className="text-2xl font-bold text-green-600">{shortlistedApps.length}</p>
+              <div className="text-center p-4 bg-success-muted rounded-lg">
+                <p className="text-2xl font-bold text-success">{shortlistedApps.length}</p>
                 <p className="text-sm text-muted-foreground">Shortlisted</p>
               </div>
-              <div className="text-center p-4 bg-red-50 rounded-lg">
-                <p className="text-2xl font-bold text-red-600">{rejectedApps.length}</p>
+              <div className="text-center p-4 bg-destructive/10 rounded-lg">
+                <p className="text-2xl font-bold text-destructive">{rejectedApps.length}</p>
                 <p className="text-sm text-muted-foreground">Rejected</p>
               </div>
             </div>
@@ -398,7 +398,7 @@ const ManageJob = () => {
                                     <Button 
                                       size="sm" 
                                       variant="outline"
-                                      className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                                      className="text-success hover:text-success/90 hover:bg-success-muted"
                                       onClick={() => updateApplicationStatus(app.id, 'shortlisted')}
                                     >
                                       <CheckCircle2 className="h-4 w-4" />
@@ -406,7 +406,7 @@ const ManageJob = () => {
                                     <Button 
                                       size="sm" 
                                       variant="outline"
-                                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                      className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                                       onClick={() => updateApplicationStatus(app.id, 'rejected')}
                                     >
                                       <XCircle className="h-4 w-4" />

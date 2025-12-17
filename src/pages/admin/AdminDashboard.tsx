@@ -141,19 +141,19 @@ const AdminDashboard = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Businesses</CardTitle>
+            <CardTitle className="text-xs md:text-sm font-medium">Total Businesses</CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalBusinesses}</div>
-            <div className="flex gap-2 mt-2">
-              <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50">
+            <div className="text-lg md:text-2xl font-bold">{stats?.totalBusinesses}</div>
+            <div className="flex gap-1 md:gap-2 mt-2 flex-wrap">
+              <Badge variant="outline" className="text-xs md:text-sm text-success-muted-foreground border-success/20 bg-success-muted">
                 {stats?.approvedBusinesses} Approved
               </Badge>
-              <Badge variant="outline" className="text-yellow-600 border-yellow-200 bg-yellow-50">
+              <Badge variant="outline" className="text-xs md:text-sm text-warning-muted-foreground border-warning/20 bg-warning-muted">
                 {stats?.pendingBusinesses} Pending
               </Badge>
             </div>
@@ -162,12 +162,12 @@ const AdminDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Jobs</CardTitle>
+            <CardTitle className="text-xs md:text-sm font-medium">Total Jobs</CardTitle>
             <Briefcase className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalJobs}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-lg md:text-2xl font-bold">{stats?.totalJobs}</div>
+            <p className="text-xs md:text-sm text-muted-foreground">
               {stats?.activeJobs} currently active
             </p>
           </CardContent>
@@ -175,23 +175,23 @@ const AdminDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
+            <CardTitle className="text-xs md:text-sm font-medium">Total Employees</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalEmployees}</div>
-            <p className="text-xs text-muted-foreground">Registered job seekers</p>
+            <div className="text-lg md:text-2xl font-bold">{stats?.totalEmployees}</div>
+            <p className="text-xs md:text-sm text-muted-foreground">Registered job seekers</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Applications</CardTitle>
+            <CardTitle className="text-xs md:text-sm font-medium">Applications</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalApplications}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-lg md:text-2xl font-bold">{stats?.totalApplications}</div>
+            <p className="text-xs md:text-sm text-muted-foreground">
               {stats?.shortlistedApplications} shortlisted
             </p>
           </CardContent>
@@ -200,12 +200,12 @@ const AdminDashboard = () => {
 
       {/* Pending Reviews Alert */}
       {(stats?.pendingBusinesses || 0) > 0 && (
-        <Card className="border-yellow-200 bg-yellow-50/50">
+        <Card className="border-warning/20 bg-warning-muted">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-yellow-600" />
-                <CardTitle className="text-yellow-800">Pending Reviews</CardTitle>
+                <AlertTriangle className="h-5 w-5 text-warning" />
+                <CardTitle className="text-warning-muted-foreground">Pending Reviews</CardTitle>
               </div>
               <Button asChild size="sm">
                 <Link to="/admin/businesses">
@@ -213,7 +213,7 @@ const AdminDashboard = () => {
                 </Link>
               </Button>
             </div>
-            <CardDescription className="text-yellow-700">
+            <CardDescription className="text-warning-muted-foreground">
               {stats?.pendingBusinesses} business applications waiting for your review
             </CardDescription>
           </CardHeader>
@@ -236,7 +236,7 @@ const AdminDashboard = () => {
           <CardContent>
             {pendingBusinesses.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
-                <CheckCircle2 className="h-12 w-12 mx-auto mb-2 text-green-500" />
+                <CheckCircle2 className="h-12 w-12 mx-auto mb-2 text-success" />
                 <p>All caught up! No pending reviews.</p>
               </div>
             ) : (
@@ -273,8 +273,8 @@ const AdminDashboard = () => {
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <div className="p-2 bg-success-muted rounded-lg">
+                  <CheckCircle2 className="h-5 w-5 text-success" />
                 </div>
                 <div>
                   <p className="font-medium">Approved Businesses</p>
@@ -286,8 +286,8 @@ const AdminDashboard = () => {
 
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Briefcase className="h-5 w-5 text-blue-600" />
+                <div className="p-2 bg-info-muted rounded-lg">
+                  <Briefcase className="h-5 w-5 text-info" />
                 </div>
                 <div>
                   <p className="font-medium">Active Job Listings</p>
@@ -299,8 +299,8 @@ const AdminDashboard = () => {
 
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <TrendingUp className="h-5 w-5 text-purple-600" />
+                <div className="p-2 bg-purple-muted rounded-lg">
+                  <TrendingUp className="h-5 w-5 text-purple" />
                 </div>
                 <div>
                   <p className="font-medium">Pending Applications</p>
@@ -311,17 +311,17 @@ const AdminDashboard = () => {
             </div>
 
             {(stats?.totalReports || 0) > 0 && (
-              <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200">
+              <div className="flex items-center justify-between p-3 bg-destructive/10 rounded-lg border border-destructive/20">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-red-100 rounded-lg">
-                    <AlertTriangle className="h-5 w-5 text-red-600" />
+                  <div className="p-2 bg-destructive/20 rounded-lg">
+                    <AlertTriangle className="h-5 w-5 text-destructive" />
                   </div>
                   <div>
-                    <p className="font-medium text-red-800">Reports</p>
-                    <p className="text-sm text-red-600">Require attention</p>
+                    <p className="font-medium text-destructive">Reports</p>
+                    <p className="text-sm text-destructive/80">Require attention</p>
                   </div>
                 </div>
-                <span className="text-2xl font-bold text-red-600">{stats?.totalReports}</span>
+                <span className="text-2xl font-bold text-destructive">{stats?.totalReports}</span>
               </div>
             )}
           </CardContent>

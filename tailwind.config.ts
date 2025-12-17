@@ -57,6 +57,44 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Semantic colors
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+          muted: "hsl(var(--success-muted))",
+          "muted-foreground": "hsl(var(--success-muted-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+          muted: "hsl(var(--warning-muted))",
+          "muted-foreground": "hsl(var(--warning-muted-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+          muted: "hsl(var(--info-muted))",
+          "muted-foreground": "hsl(var(--info-muted-foreground))",
+        },
+        purple: {
+          DEFAULT: "hsl(var(--purple))",
+          foreground: "hsl(var(--purple-foreground))",
+          muted: "hsl(var(--purple-muted))",
+          "muted-foreground": "hsl(var(--purple-muted-foreground))",
+        },
+        orange: {
+          DEFAULT: "hsl(var(--orange))",
+          foreground: "hsl(var(--orange-foreground))",
+          muted: "hsl(var(--orange-muted))",
+          "muted-foreground": "hsl(var(--orange-muted-foreground))",
+        },
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

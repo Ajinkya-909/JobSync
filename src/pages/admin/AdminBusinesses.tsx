@@ -243,11 +243,11 @@ const AdminBusinesses = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Approved</Badge>;
+        return <Badge className="bg-success-muted text-success-muted-foreground border-success/20">Approved</Badge>;
       case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>;
+        return <Badge className="bg-warning-muted text-warning-muted-foreground border-warning/20">Pending</Badge>;
       case 'rejected':
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Rejected</Badge>;
+        return <Badge className="bg-destructive/10 text-destructive border-destructive/20">Rejected</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -274,48 +274,48 @@ const AdminBusinesses = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total</p>
-                <p className="text-2xl font-bold">{businesses.length}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total</p>
+                <p className="text-lg md:text-2xl font-bold">{businesses.length}</p>
               </div>
               <Building2 className="h-8 w-8 text-muted-foreground" />
             </div>
           </CardContent>
         </Card>
-        <Card className="border-yellow-200 bg-yellow-50/50">
+        <Card className="border-warning/20 bg-warning-muted">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-yellow-700">Pending Review</p>
-                <p className="text-2xl font-bold text-yellow-800">{pendingCount}</p>
+                <p className="text-xs md:text-sm text-warning-muted-foreground">Pending Review</p>
+                <p className="text-lg md:text-2xl font-bold text-warning">{pendingCount}</p>
               </div>
-              <Clock className="h-8 w-8 text-yellow-600" />
+              <Clock className="h-8 w-8 text-warning" />
             </div>
           </CardContent>
         </Card>
-        <Card className="border-green-200 bg-green-50/50">
+        <Card className="border-success/20 bg-success-muted">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-green-700">Approved</p>
-                <p className="text-2xl font-bold text-green-800">{approvedCount}</p>
+                <p className="text-xs md:text-sm text-success-muted-foreground">Approved</p>
+                <p className="text-lg md:text-2xl font-bold text-success">{approvedCount}</p>
               </div>
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
+              <CheckCircle2 className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
-        <Card className="border-red-200 bg-red-50/50">
+        <Card className="border-destructive/20 bg-destructive/10">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-red-700">Rejected</p>
-                <p className="text-2xl font-bold text-red-800">{rejectedCount}</p>
+                <p className="text-xs md:text-sm text-destructive/80">Rejected</p>
+                <p className="text-lg md:text-2xl font-bold text-destructive">{rejectedCount}</p>
               </div>
-              <XCircle className="h-8 w-8 text-red-600" />
+              <XCircle className="h-8 w-8 text-destructive" />
             </div>
           </CardContent>
         </Card>
@@ -381,7 +381,7 @@ const AdminBusinesses = () => {
                               {business.profile?.legal_company_name || business.user?.email}
                             </p>
                             {business.is_verified && (
-                              <CheckCircle2 className="h-4 w-4 text-green-500" />
+                              <CheckCircle2 className="h-4 w-4 text-success" />
                             )}
                           </div>
                           <p className="text-sm text-muted-foreground">{business.user?.email}</p>

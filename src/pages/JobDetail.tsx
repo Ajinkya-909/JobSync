@@ -310,7 +310,7 @@ const JobDetail = () => {
                   <ul className="space-y-3">
                     {requirements.map((req) => (
                       <li key={req.id} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="h-5 w-5 text-success flex-shrink-0 mt-0.5" />
                         <div>
                           <span className="font-medium capitalize">{req.requirement_type}: </span>
                           <span className="text-muted-foreground">{req.requirement_value}</span>
@@ -329,7 +329,7 @@ const JobDetail = () => {
               <CardContent className="pt-6">
                 {hasApplied ? (
                   <div className="text-center py-4">
-                    <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto mb-3" />
+                    <CheckCircle2 className="h-12 w-12 text-success mx-auto mb-3" />
                     <h3 className="font-semibold text-lg">Already Applied</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                       You've already applied to this job.

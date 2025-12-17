@@ -155,13 +155,13 @@ const AdminEmployees = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Employees</p>
-                <p className="text-2xl font-bold">{totalCount}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total Employees</p>
+                <p className="text-lg md:text-2xl font-bold">{totalCount}</p>
               </div>
               <Users className="h-8 w-8 text-muted-foreground" />
             </div>
@@ -171,8 +171,8 @@ const AdminEmployees = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">With Complete Profiles</p>
-                <p className="text-2xl font-bold">
+                <p className="text-xs md:text-sm text-muted-foreground">With Complete Profiles</p>
+                <p className="text-lg md:text-2xl font-bold">
                   {employees.filter(e => e.first_name && e.last_name && e.skills?.length > 0).length}
                 </p>
               </div>
@@ -184,8 +184,8 @@ const AdminEmployees = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Applications</p>
-                <p className="text-2xl font-bold">
+                <p className="text-xs md:text-sm text-muted-foreground">Total Applications</p>
+                <p className="text-lg md:text-2xl font-bold">
                   {employees.reduce((sum, e) => sum + e.applications_count, 0)}
                 </p>
               </div>

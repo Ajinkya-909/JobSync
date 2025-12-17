@@ -130,9 +130,9 @@ const Jobs = () => {
 
   const getEmploymentBadgeColor = (type: string) => {
     switch (type) {
-      case 'full-time': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'internship': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'contract': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'full-time': return 'bg-info-muted text-info-muted-foreground border-info/20';
+      case 'internship': return 'bg-purple-muted text-purple-muted-foreground border-purple/20';
+      case 'contract': return 'bg-orange-muted text-orange-muted-foreground border-orange/20';
       default: return '';
     }
   };
@@ -364,7 +364,7 @@ const Jobs = () => {
                               {job.work_type}
                             </Badge>
                             {job.min_experience === 0 && (
-                              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                              <Badge variant="outline" className="bg-success-muted text-success-muted-foreground border-success/20">
                                 Fresher Friendly
                               </Badge>
                             )}

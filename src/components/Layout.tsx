@@ -20,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className }) => {
     <div className="flex h-screen w-screen overflow-hidden bg-background">
       {shouldShowSidebar && <Sidebar />}
       
-      <main className={cn('flex-1 overflow-y-auto', className)}>
+      <main className={cn('flex-1 overflow-y-auto pt-16 md:pt-0', className)}>
         {children}
       </main>
     </div>

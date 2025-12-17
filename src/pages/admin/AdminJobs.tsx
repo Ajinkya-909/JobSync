@@ -248,9 +248,9 @@ const AdminJobs = () => {
 
   const getEmploymentBadgeColor = (type: string) => {
     switch (type) {
-      case 'full-time': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'internship': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'contract': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'full-time': return 'bg-info-muted text-info-muted-foreground border-info/20';
+      case 'internship': return 'bg-purple-muted text-purple-muted-foreground border-purple/20';
+      case 'contract': return 'bg-orange-muted text-orange-muted-foreground border-orange/20';
       default: return '';
     }
   };
@@ -275,50 +275,50 @@ const AdminJobs = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Jobs</p>
-                <p className="text-2xl font-bold">{jobs.length}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total Jobs</p>
+                <p className="text-lg md:text-2xl font-bold">{jobs.length}</p>
               </div>
               <Briefcase className="h-8 w-8 text-muted-foreground" />
             </div>
           </CardContent>
         </Card>
-        <Card className="border-green-200 bg-green-50/50">
+        <Card className="border-success/20 bg-success-muted">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-green-700">Active</p>
-                <p className="text-2xl font-bold text-green-800">{activeCount}</p>
+                <p className="text-xs md:text-sm text-success-muted-foreground">Active</p>
+                <p className="text-lg md:text-2xl font-bold text-success">{activeCount}</p>
               </div>
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
+              <CheckCircle2 className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 bg-gray-50/50">
+        <Card className="border-muted-foreground/20 bg-muted">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-700">Inactive</p>
-                <p className="text-2xl font-bold text-gray-800">{inactiveCount}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Inactive</p>
+                <p className="text-lg md:text-2xl font-bold text-foreground">{inactiveCount}</p>
               </div>
-              <XCircle className="h-8 w-8 text-gray-600" />
+              <XCircle className="h-8 w-8 text-muted-foreground" />
             </div>
           </CardContent>
         </Card>
-        <Card className="border-blue-200 bg-blue-50/50">
+        <Card className="border-info/20 bg-info-muted">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-700">Total Applications</p>
-                <p className="text-2xl font-bold text-blue-800">
+                <p className="text-xs md:text-sm text-info-muted-foreground">Total Applications</p>
+                <p className="text-lg md:text-2xl font-bold text-info">
                   {jobs.reduce((sum, j) => sum + j.applications_count, 0)}
                 </p>
               </div>
-              <Users className="h-8 w-8 text-blue-600" />
+              <Users className="h-8 w-8 text-info" />
             </div>
           </CardContent>
         </Card>
@@ -385,7 +385,7 @@ const AdminJobs = () => {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-medium">{job.title}</h3>
                       {!job.is_active && (
-                        <Badge variant="outline" className="text-gray-500">Inactive</Badge>
+                        <Badge variant="outline" className="text-muted-foreground">Inactive</Badge>
                       )}
                     </div>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -416,7 +416,7 @@ const AdminJobs = () => {
                         </Badge>
                       )}
                       {job.business?.is_verified && (
-                        <Badge variant="outline" className="text-green-600 border-green-200">
+                        <Badge variant="outline" className="text-success border-success/20">
                           <CheckCircle2 className="h-3 w-3 mr-1" /> Verified Business
                         </Badge>
                       )}
@@ -430,9 +430,9 @@ const AdminJobs = () => {
                       title={job.is_active ? 'Deactivate' : 'Activate'}
                     >
                       {job.is_active ? (
-                        <XCircle className="h-4 w-4 text-gray-500" />
+                        <XCircle className="h-4 w-4 text-muted-foreground" />
                       ) : (
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                        <CheckCircle2 className="h-4 w-4 text-success" />
                       )}
                     </Button>
                     <Button
@@ -446,7 +446,7 @@ const AdminJobs = () => {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleDelete(job)}
-                      className="text-red-500 hover:text-red-600"
+                      className="text-destructive hover:text-destructive/90"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

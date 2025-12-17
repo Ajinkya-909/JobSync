@@ -39,20 +39,46 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Semantic colors - Light mode */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --success-muted: 142 76% 96%;
+    --success-muted-foreground: 142 76% 30%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --warning-muted: 38 92% 95%;
+    --warning-muted-foreground: 38 92% 30%;
+
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+    --info-muted: 217 91% 95%;
+    --info-muted-foreground: 217 91% 35%;
+
+    --purple: 270 70% 60%;
+    --purple-foreground: 0 0% 100%;
+    --purple-muted: 270 70% 95%;
+    --purple-muted-foreground: 270 70% 35%;
+
+    --orange: 25 95% 53%;
+    --orange-foreground: 0 0% 100%;
+    --orange-muted: 25 95% 95%;
+    --orange-muted-foreground: 25 95% 35%;
+
+    /* Chart colors */
+    --chart-1: 217 91% 60%;
+    --chart-2: 142 76% 36%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 270 70% 60%;
+    --chart-5: 25 95% 53%;
   }
 
   .dark {
@@ -83,6 +109,7 @@ All colors MUST be HSL.
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -91,6 +118,39 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Semantic colors - Dark mode */
+    --success: 142 76% 46%;
+    --success-foreground: 0 0% 100%;
+    --success-muted: 142 30% 18%;
+    --success-muted-foreground: 142 76% 70%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --warning-muted: 38 30% 18%;
+    --warning-muted-foreground: 38 92% 70%;
+
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+    --info-muted: 217 30% 18%;
+    --info-muted-foreground: 217 91% 75%;
+
+    --purple: 270 70% 60%;
+    --purple-foreground: 0 0% 100%;
+    --purple-muted: 270 30% 18%;
+    --purple-muted-foreground: 270 70% 75%;
+
+    --orange: 25 95% 53%;
+    --orange-foreground: 0 0% 100%;
+    --orange-muted: 25 30% 18%;
+    --orange-muted-foreground: 25 95% 70%;
+
+    /* Chart colors */
+    --chart-1: 217 91% 65%;
+    --chart-2: 142 76% 50%;
+    --chart-3: 38 92% 55%;
+    --chart-4: 270 70% 65%;
+    --chart-5: 25 95% 58%;
   }
 }
 

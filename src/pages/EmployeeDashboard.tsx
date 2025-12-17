@@ -135,7 +135,7 @@ const EmployeeDashboard = () => {
       case 'applied':
         return <Badge variant="secondary"><Clock className="w-3 h-3 mr-1" />Applied</Badge>;
       case 'shortlisted':
-        return <Badge className="bg-green-500 hover:bg-green-600"><CheckCircle2 className="w-3 h-3 mr-1" />Shortlisted</Badge>;
+        return <Badge className="bg-success hover:bg-success/90"><CheckCircle2 className="w-3 h-3 mr-1" />Shortlisted</Badge>;
       case 'rejected':
         return <Badge variant="destructive"><XCircle className="w-3 h-3 mr-1" />Rejected</Badge>;
       default:
@@ -179,41 +179,41 @@ const EmployeeDashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Total Applications</CardTitle>
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total}</div>
+              <div className="text-lg md:text-2xl font-bold">{stats.total}</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Pending Review</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Pending Review</CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.applied}</div>
+              <div className="text-lg md:text-2xl font-bold">{stats.applied}</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Shortlisted</CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <CardTitle className="text-xs md:text-sm font-medium">Shortlisted</CardTitle>
+              <CheckCircle2 className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{stats.shortlisted}</div>
+              <div className="text-lg md:text-2xl font-bold text-success">{stats.shortlisted}</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Saved Jobs</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Saved Jobs</CardTitle>
               <BookmarkCheck className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{savedJobs.length}</div>
+              <div className="text-lg md:text-2xl font-bold">{savedJobs.length}</div>
             </CardContent>
           </Card>
         </div>
@@ -232,7 +232,7 @@ const EmployeeDashboard = () => {
                 <div className="flex-1">
                   <div className="h-4 bg-muted rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-green-500 transition-all"
+                      className="h-full bg-success transition-all"
                       style={{ width: `${(stats.shortlisted / stats.total) * 100}%` }}
                     />
                   </div>

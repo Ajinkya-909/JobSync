@@ -183,7 +183,7 @@ const BusinessDashboard = () => {
       case 'applied':
         return <Badge variant="secondary"><Clock className="w-3 h-3 mr-1" />Pending</Badge>;
       case 'shortlisted':
-        return <Badge className="bg-green-500 hover:bg-green-600"><CheckCircle2 className="w-3 h-3 mr-1" />Shortlisted</Badge>;
+        return <Badge className="bg-success hover:bg-success/90"><CheckCircle2 className="w-3 h-3 mr-1" />Shortlisted</Badge>;
       case 'rejected':
         return <Badge variant="destructive"><XCircle className="w-3 h-3 mr-1" />Rejected</Badge>;
       default:
@@ -227,49 +227,49 @@ const BusinessDashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Jobs</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Total Jobs</CardTitle>
               <Briefcase className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalJobs}</div>
-              <p className="text-xs text-muted-foreground">{stats.activeJobs} active</p>
+              <div className="text-lg md:text-2xl font-bold">{stats.totalJobs}</div>
+              <p className="text-xs md:text-sm text-muted-foreground">{stats.activeJobs} active</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Total Applications</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalApplications}</div>
-              <p className="text-xs text-muted-foreground">{stats.pending} pending review</p>
+              <div className="text-lg md:text-2xl font-bold">{stats.totalApplications}</div>
+              <p className="text-xs md:text-sm text-muted-foreground">{stats.pending} pending review</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Shortlisted</CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <CardTitle className="text-xs md:text-sm font-medium">Shortlisted</CardTitle>
+              <CheckCircle2 className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{stats.shortlisted}</div>
-              <p className="text-xs text-muted-foreground">candidates</p>
+              <div className="text-lg md:text-2xl font-bold text-success">{stats.shortlisted}</div>
+              <p className="text-xs md:text-sm text-muted-foreground">candidates</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Response Rate</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Response Rate</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-lg md:text-2xl font-bold">
                 {stats.totalApplications > 0 
                   ? Math.round(((stats.shortlisted + stats.rejected) / stats.totalApplications) * 100) 
                   : 0}%
               </div>
-              <p className="text-xs text-muted-foreground">reviewed applications</p>
+              <p className="text-xs md:text-sm text-muted-foreground">reviewed applications</p>
             </CardContent>
           </Card>
         </div>
@@ -294,10 +294,10 @@ const BusinessDashboard = () => {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-green-600">Shortlisted</span>
-                  <span className="font-medium text-green-600">{stats.shortlisted}</span>
+                  <span className="text-success">Shortlisted</span>
+                  <span className="font-medium text-success">{stats.shortlisted}</span>
                 </div>
-                <Progress value={(stats.shortlisted / stats.totalApplications) * 100} className="h-2 [&>div]:bg-green-500" />
+                <Progress value={(stats.shortlisted / stats.totalApplications) * 100} className="h-2 [&>div]:bg-success" />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
@@ -342,7 +342,7 @@ const BusinessDashboard = () => {
                           <div className="flex items-center gap-2">
                             <h3 className="font-semibold text-foreground">{job.title}</h3>
                             {job.is_active ? (
-                              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
+                              <Badge variant="outline" className="bg-success-muted text-success-muted-foreground border-success/20">Active</Badge>
                             ) : (
                               <Badge variant="outline">Inactive</Badge>
                             )}
