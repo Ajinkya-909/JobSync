@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className }) => {
     !location.pathname.startsWith('/jobs');
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background">
+    <div className="flex h-screen w-screen bg-background">
       {shouldShowSidebar && <Sidebar />}
       
       <main className={cn('flex-1 overflow-y-auto pt-16 md:pt-0', className)}>

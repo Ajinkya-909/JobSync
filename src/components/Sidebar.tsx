@@ -76,7 +76,7 @@ const Sidebar = () => {
   }
 
   return (
-    <>
+    <div className='overflow-hidden '>
       {/* Mobile Toggle Button */}
       <div className="fixed top-0 left-0 right-0 z-40 bg-background border-b md:hidden flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
@@ -94,8 +94,8 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed md:relative left-0 top-0 h-screen md:h-full bg-background border-r transition-all duration-300 overflow-y-auto z-50',
-          isOpen ? 'w-64' : 'w-20',
+          'fixed  md:relative left-0 top-0 h-screen md:h-full bg-background border-r transition-all duration-300 z-50 ',
+          isOpen ? 'w-64 overflow-y-auto' : 'w-20 overflow-hidden',
           'md:relative md:z-0 pt-0 md:pt-0',
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         )}
@@ -256,11 +256,11 @@ const Sidebar = () => {
         </nav>
 
         {/* Footer with User Info & Logout */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-background">
+        <div className={cn('absolute bottom-0 left-0 right-0 border-t space-y-2 bg-background overflow-hidden', isOpen ? 'p-4' : 'p-2')}>
           {/* Theme Toggle */}
-          <div className={cn('flex items-center gap-2 px-3 py-2', !isOpen && 'justify-center')}>
+          <div className={cn('flex items-center gap-2 px-3 py-2', !isOpen && 'flex-col justify-center')}>
             {isOpen && <span className="text-xs text-muted-foreground">Theme</span>}
-            <div className="flex items-center gap-1">
+            <div className={cn('flex items-center gap-1', !isOpen && 'flex-col w-full')}>
               <button
                 onClick={() => setTheme('light')}
                 className={cn(
@@ -302,7 +302,7 @@ const Sidebar = () => {
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="w-full justify-start gap-2"
+            className={cn('gap-2', isOpen ? 'w-full justify-start' : 'w-full justify-center')}
             size="sm"
           >
             <LogOut className="h-4 w-4" />
@@ -318,7 +318,7 @@ const Sidebar = () => {
           onClick={() => setIsMobileOpen(false)}
         />
       )}
-    </>
+    </div>
   );
 };
 

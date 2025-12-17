@@ -9,10 +9,21 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { 
   Loader2, Search, MapPin, Briefcase, Clock, Building2, 
-  Filter, X, ChevronLeft
+  Filter, X, ChevronLeft, GraduationCap, Users, Laptop, 
+  Calendar, ArrowRight, Sparkles, Globe, TrendingUp
 } from 'lucide-react';
+
+interface BusinessProfile {
+  brand_name: string | null;
+  legal_company_name: string | null;
+  industry: string | null;
+  company_size: string | null;
+  city: string | null;
+  fresher_friendly: boolean;
+}
 
 interface Job {
   id: string;
@@ -27,6 +38,7 @@ interface Job {
   expires_at: string | null;
   business: {
     id: string;
+    business_profiles: BusinessProfile[] | null;
   };
 }
 
@@ -53,7 +65,17 @@ const Jobs = () => {
           .from('jobs')
           .select(`
             *,
-            business:businesses(id)
+            business:businesses(
+              id,
+              business_profiles(
+                brand_name,
+                legal_company_name,
+                industry,
+                company_size,
+                city,
+                fresher_friendly
+              )
+            )
           `)
           .eq('is_active', true)
           .order('created_at', { ascending: false });
@@ -130,11 +152,46 @@ const Jobs = () => {
 
   const getEmploymentBadgeColor = (type: string) => {
     switch (type) {
-      case 'full-time': return 'bg-info-muted text-info-muted-foreground border-info/20';
-      case 'internship': return 'bg-purple-muted text-purple-muted-foreground border-purple/20';
-      case 'contract': return 'bg-orange-muted text-orange-muted-foreground border-orange/20';
-      default: return '';
+      case 'full-time': return 'bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700';
+      case 'internship': return 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700';
+      case 'contract': return 'bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-700';
+      default: return 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-900/30 dark:text-gray-300 dark:border-gray-700';
     }
+  };
+
+  const getWorkTypeIcon = (type: string) => {
+    switch (type) {
+      case 'remote': return <Globe className="h-4 w-4" />;
+      case 'hybrid': return <Laptop className="h-4 w-4" />;
+      case 'onsite': return <Building2 className="h-4 w-4" />;
+      default: return <Briefcase className="h-4 w-4" />;
+    }
+  };
+
+  const getCompanyName = (job: Job) => {
+    const profile = job.business?.business_profiles?.[0];
+    return profile?.brand_name || profile?.legal_company_name || 'Company';
+  };
+
+  const getCompanyIndustry = (job: Job) => {
+    const profile = job.business?.business_profiles?.[0];
+    return profile?.industry || null;
+  };
+
+  const formatEmploymentType = (type: string) => {
+    return type?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || 'Full Time';
+  };
+
+  const getTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffInDays === 0) return 'Today';
+    if (diffInDays === 1) return 'Yesterday';
+    if (diffInDays < 7) return `${diffInDays} days ago`;
+    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+    return `${Math.floor(diffInDays / 30)} months ago`;
   };
 
   if (isLoading) {
@@ -325,78 +382,111 @@ const Jobs = () => {
             ) : (
               <div className="space-y-4">
                 {filteredJobs.map((job) => (
-                  <Card key={job.id} className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-start gap-3">
-                            <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                              <Building2 className="h-6 w-6 text-primary" />
+                  <Card 
+                    key={job.id} 
+                    className="group hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 border-l-4 border-l-transparent hover:border-l-primary overflow-hidden"
+                  >
+                    <CardContent className="p-0">
+                      <div className="flex flex-col lg:flex-row">
+                        {/* Main Content */}
+                        <div className="flex-1 p-6">
+                          {/* Header Section */}
+                          <div className="flex items-start gap-4 mb-4">
+                            {/* Company Logo Placeholder */}
+                            <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0 border border-primary/10">
+                              <Building2 className="h-7 w-7 text-primary" />
                             </div>
+                            
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-semibold text-lg text-foreground truncate">
-                                {job.title}
-                              </h3>
-                              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-muted-foreground">
-                                <span className="flex items-center gap-1">
-                                  <MapPin className="h-3 w-3" />
-                                  {job.location || 'Not specified'}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                  <Clock className="h-3 w-3" />
-                                  {job.min_experience === 0 
-                                    ? 'Entry Level' 
-                                    : `${job.min_experience}+ years`}
+                              {/* Job Title & Company */}
+                              <div className="flex items-start justify-between gap-2">
+                                <div>
+                                  <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                                    {job.title}
+                                  </h3>
+                                  <p className="text-muted-foreground font-medium mt-0.5">
+                                    {getCompanyName(job)}
+                                    {getCompanyIndustry(job) && (
+                                      <span className="text-muted-foreground/60"> • {getCompanyIndustry(job)}</span>
+                                    )}
+                                  </p>
+                                </div>
+                                <span className="text-xs text-muted-foreground whitespace-nowrap flex items-center gap-1 bg-muted px-2 py-1 rounded-full">
+                                  <Calendar className="h-3 w-3" />
+                                  {getTimeAgo(job.created_at)}
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          {/* Tags */}
-                          <div className="flex flex-wrap gap-2 mt-4">
-                            <Badge 
-                              variant="outline" 
-                              className={getEmploymentBadgeColor(job.employment_type)}
-                            >
-                              {job.employment_type?.replace('-', ' ')}
-                            </Badge>
-                            <Badge variant="outline" className="capitalize">
-                              {job.work_type}
-                            </Badge>
+                          {/* Employment Type Tag - Highlighted like the image */}
+                          <div className="mb-4">
+                            <span className={`inline-flex items-center px-3 py-1.5 rounded-md text-sm font-semibold border ${getEmploymentBadgeColor(job.employment_type)}`}>
+                              {formatEmploymentType(job.employment_type)}
+                            </span>
+                          </div>
+
+                          {/* Feature List - Icon based like the image */}
+                          <div className="space-y-2.5 mb-4">
+                            <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                              <MapPin className="h-4 w-4 text-primary/70 flex-shrink-0" />
+                              <span>{job.location || 'Location not specified'}</span>
+                            </div>
+                            
+                            <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                              {getWorkTypeIcon(job.work_type)}
+                              <span className="capitalize">{job.work_type || 'On-site'} Work</span>
+                            </div>
+                            
+                            <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                              <TrendingUp className="h-4 w-4 text-primary/70 flex-shrink-0" />
+                              <span>
+                                {job.min_experience === 0 
+                                  ? 'Entry Level / Freshers Welcome' 
+                                  : `${job.min_experience}+ years experience required`}
+                              </span>
+                            </div>
+
                             {job.min_experience === 0 && (
-                              <Badge variant="outline" className="bg-success-muted text-success-muted-foreground border-success/20">
-                                Fresher Friendly
-                              </Badge>
+                              <div className="flex items-center gap-2.5 text-sm text-success">
+                                <GraduationCap className="h-4 w-4 flex-shrink-0" />
+                                <span className="font-medium">Fresher Friendly Position</span>
+                              </div>
                             )}
                           </div>
 
-                          {/* Skills */}
+                          {/* Skills Tags */}
                           {job.required_skills && job.required_skills.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-3">
-                              {job.required_skills.slice(0, 5).map((skill, idx) => (
+                            <div className="flex flex-wrap gap-2">
+                              {job.required_skills.slice(0, 4).map((skill, idx) => (
                                 <span 
                                   key={idx}
-                                  className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground"
+                                  className="text-xs px-2.5 py-1 bg-secondary/80 hover:bg-secondary rounded-full text-muted-foreground font-medium transition-colors"
                                 >
                                   {skill}
                                 </span>
                               ))}
-                              {job.required_skills.length > 5 && (
-                                <span className="text-xs px-2 py-1 text-muted-foreground">
-                                  +{job.required_skills.length - 5} more
+                              {job.required_skills.length > 4 && (
+                                <span className="text-xs px-2.5 py-1 bg-primary/10 text-primary rounded-full font-medium">
+                                  +{job.required_skills.length - 4} more
                                 </span>
                               )}
                             </div>
                           )}
-
-                          <p className="text-xs text-muted-foreground mt-3">
-                            Posted {new Date(job.created_at).toLocaleDateString()}
-                          </p>
                         </div>
 
-                        <div className="flex sm:flex-col gap-2 sm:items-end">
-                          <Button asChild className="flex-1 sm:flex-none">
-                            <Link to={`/jobs/${job.id}`}>View Details</Link>
+                        {/* Action Section - Right Side */}
+                        <div className="lg:w-48 flex lg:flex-col items-center justify-center gap-3 p-6 lg:border-l border-t lg:border-t-0 bg-muted/30">
+                          <Button asChild className="w-full group/btn">
+                            <Link to={`/jobs/${job.id}`} className="flex items-center justify-center gap-2">
+                              Apply Now
+                              <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                            </Link>
+                          </Button>
+                          <Button variant="outline" asChild className="w-full">
+                            <Link to={`/jobs/${job.id}`}>
+                              View Details
+                            </Link>
                           </Button>
                         </div>
                       </div>

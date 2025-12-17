@@ -8,146 +8,147 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light Theme - Final Approved Colors */
+    /* Light Theme - Improved Contrast */
     --background: 210 40% 98%; /* slate-50 */
     --foreground: 222 47% 11%; /* slate-900 */
 
+    /* Card = highest surface */
     --card: 0 0% 100%; /* white */
-    --card-foreground: 222 47% 11%; /* slate-900 */
+    --card-foreground: 222 47% 11%;
+
+    /* Secondary = clearly darker than card */
+    --secondary: 215 30% 88%; /* darker than slate-200 */
+    --secondary-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 221 83% 53%; /* blue-600 - main CTAs */
-    --primary-foreground: 0 0% 100%; /* white */
+    /* Brand */
+    --primary: 221 83% 53%; /* blue-600 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 214 32% 91%; /* slate-200 - section bg */
-    --secondary-foreground: 222 47% 11%; /* slate-900 */
+    --accent: 160 84% 39%; /* emerald-500 */
+    --accent-foreground: 0 0% 100%;
 
+    /* Muted */
     --muted: 210 40% 96%; /* slate-100 */
     --muted-foreground: 215 19% 35%; /* slate-600 */
 
-    --accent: 160 84% 39%; /* emerald-500 - accent/verified */
-    --accent-foreground: 0 0% 100%;
+    /* Borders & Inputs */
+    --border: 215 25% 75%; /* darker than before */
+    --input: 215 25% 75%;
+    --ring: 221 83% 53%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 213 27% 84%; /* slate-300 */
-    --input: 213 27% 84%; /* slate-300 */
-    --ring: 221 83% 53%; /* blue-600 */
-
     --radius: 0.5rem;
 
-    --sidebar-background: 210 40% 98%; /* slate-50 */
-    --sidebar-foreground: 222 47% 11%; /* slate-900 */
-    --sidebar-primary: 221 83% 53%; /* blue-600 */
+    /* Sidebar */
+    --sidebar-background: 210 40% 97%; /* slightly darker than page */
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 96%; /* slate-100 */
+    --sidebar-accent: 215 30% 92%;
     --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 213 27% 84%; /* slate-300 */
+    --sidebar-border: 215 25% 75%;
     --sidebar-ring: 221 83% 53%;
 
-    /* Semantic colors - Light mode */
-    --success: 160 84% 39%; /* emerald-500 */
+    /* Semantic */
+    --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
-    --success-muted: 152 76% 94%; /* emerald-50 */
-    --success-muted-foreground: 163 94% 24%; /* emerald-700 */
+    --success-muted: 152 76% 94%;
+    --success-muted-foreground: 163 94% 24%;
 
-    --warning: 43 96% 56%; /* amber-400 */
-    --warning-foreground: 222 47% 11%; /* slate-900 for contrast */
-    --warning-muted: 48 96% 89%; /* amber-100 */
-    --warning-muted-foreground: 32 95% 30%; /* amber-700 */
+    --warning: 43 96% 56%;
+    --warning-foreground: 222 47% 11%;
+    --warning-muted: 48 96% 89%;
+    --warning-muted-foreground: 32 95% 30%;
 
-    --info: 217 91% 60%; /* blue-500 */
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
-    --info-muted: 214 95% 93%; /* blue-100 */
-    --info-muted-foreground: 224 76% 48%; /* blue-700 */
+    --info-muted: 214 95% 93%;
+    --info-muted-foreground: 224 76% 48%;
 
-    --purple: 271 81% 56%; /* violet-500 */
-    --purple-foreground: 0 0% 100%;
-    --purple-muted: 270 95% 95%; /* violet-100 */
-    --purple-muted-foreground: 270 70% 35%;
+    /* Extended Colors for Job Listings */
+    --purple-muted: 270 70% 94%;
+    --purple-muted-foreground: 271 81% 45%;
+    --orange-muted: 33 100% 92%;
+    --orange-muted-foreground: 25 95% 40%;
 
-    --orange: 25 95% 53%; /* orange-500 */
-    --orange-foreground: 0 0% 100%;
-    --orange-muted: 34 100% 92%; /* orange-100 */
-    --orange-muted-foreground: 21 90% 35%;
-
-    /* Chart colors */
-    --chart-1: 221 83% 53%; /* blue-600 */
-    --chart-2: 160 84% 39%; /* emerald-500 */
-    --chart-3: 43 96% 56%; /* amber-400 */
-    --chart-4: 271 81% 56%; /* violet-500 */
-    --chart-5: 25 95% 53%; /* orange-500 */
+    /* Charts */
+    --chart-1: 221 83% 53%;
+    --chart-2: 160 84% 39%;
+    --chart-3: 43 96% 56%;
+    --chart-4: 271 81% 56%;
+    --chart-5: 25 95% 53%;
   }
 
   .dark {
-    /* Dark Theme - Final Approved Colors */
+    /* Dark Theme - Stronger Layer Separation */
     --background: 229 84% 5%; /* slate-950 */
-    --foreground: 210 40% 98%; /* slate-100 */
+    --foreground: 210 40% 98%;
 
+    /* Card = darkest surface */
     --card: 222 47% 11%; /* slate-900 */
-    --card-foreground: 210 40% 98%; /* slate-100 */
+    --card-foreground: 210 40% 98%;
+
+    /* Secondary = clearly lighter than card */
+    --secondary: 217 33% 20%; /* slightly lighter than slate-800 */
+    --secondary-foreground: 210 40% 98%;
 
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%; /* blue-500 */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 17%; /* slate-800 - section bg */
-    --secondary-foreground: 210 40% 98%; /* slate-100 */
+    --accent: 158 64% 52%;
+    --accent-foreground: 222 47% 11%;
 
-    --muted: 222 47% 11%; /* very dark slate - slate-900 */
-    --muted-foreground: 215 20% 65%; /* slate-400 */
+    --muted: 223 40% 10%; /* deeper than card */
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 158 64% 52%; /* emerald-400 - accent/verified */
-    --accent-foreground: 222 47% 11%; /* dark text for contrast */
+    --border: 215 30% 35%; /* more visible */
+    --input: 215 30% 35%;
+    --ring: 217 91% 60%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 215 25% 27%; /* slate-700 */
-    --input: 215 25% 27%; /* slate-700 */
-    --ring: 217 91% 60%; /* blue-500 */
-
-    --sidebar-background: 222 47% 11%; /* slate-900 */
-    --sidebar-foreground: 210 40% 98%; /* slate-100 */
-    --sidebar-primary: 217 91% 60%; /* blue-500 */
+    /* Sidebar */
+    --sidebar-background: 223 40% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217 33% 17%; /* slate-800 */
+    --sidebar-accent: 217 33% 20%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 27%; /* slate-700 */
+    --sidebar-border: 215 30% 35%;
     --sidebar-ring: 217 91% 60%;
 
-    /* Semantic colors - Dark mode */
-    --success: 158 64% 52%; /* emerald-400 */
-    --success-foreground: 222 47% 11%; /* dark text for contrast */
-    --success-muted: 166 40% 14%; /* dark emerald bg */
+    /* Semantic */
+    --success: 158 64% 52%;
+    --success-foreground: 222 47% 11%;
+    --success-muted: 166 40% 14%;
     --success-muted-foreground: 158 64% 70%;
 
-    --warning: 38 92% 50%; /* amber-500 */
-    --warning-foreground: 222 47% 11%; /* slate-900 for contrast */
-    --warning-muted: 38 40% 14%; /* dark amber bg */
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+    --warning-muted: 38 40% 14%;
     --warning-muted-foreground: 43 96% 70%;
 
-    --info: 217 91% 60%; /* blue-500 */
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
-    --info-muted: 217 40% 16%; /* dark blue bg */
+    --info-muted: 217 40% 16%;
     --info-muted-foreground: 213 94% 75%;
 
-    --purple: 270 70% 60%;
-    --purple-foreground: 0 0% 100%;
-    --purple-muted: 270 40% 16%;
+    /* Extended Colors for Job Listings */
+    --purple-muted: 270 50% 18%;
     --purple-muted-foreground: 270 70% 75%;
+    --orange-muted: 30 50% 16%;
+    --orange-muted-foreground: 30 90% 70%;
 
-    --orange: 25 95% 53%;
-    --orange-foreground: 0 0% 100%;
-    --orange-muted: 25 40% 16%;
-    --orange-muted-foreground: 25 95% 70%;
-
-    /* Chart colors */
+    /* Charts */
     --chart-1: 217 91% 60%;
     --chart-2: 158 64% 52%;
     --chart-3: 38 92% 50%;
@@ -155,6 +156,7 @@ All colors MUST be HSL.
     --chart-5: 25 95% 58%;
   }
 }
+
 
 @layer base {
   * {
