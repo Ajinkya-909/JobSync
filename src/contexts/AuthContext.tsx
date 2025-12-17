@@ -8,6 +8,7 @@ interface AuthContextType {
   session: Session | null;
   dbUser: User | null;
   businessApplication: BusinessApplication | null;
+  hasBusinessProfile: boolean;
   isLoading: boolean;
   signUp: (email: string, password: string, role: UserRole) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
@@ -30,6 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [dbUser, setDbUser] = useState<User | null>(null);
   const [businessApplication, setBusinessApplication] = useState<BusinessApplication | null>(null);
+  const [hasBusinessProfile, setHasBusinessProfile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUserData = async (userId: string) => {
@@ -44,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (userError) throw userError;
       setDbUser(userData);
 
-      // If business user, fetch business application status
+      // If business user, fetch business application status and profile
       if (userData?.role === 'business') {
         const { data: businessData } = await supabase
           .from('businesses')
@@ -53,6 +55,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           .maybeSingle();
 
         if (businessData) {
+          // Check if business profile exists
+          const { data: profileData } = await supabase
+            .from('business_profiles')
+            .select('id')
+            .eq('business_id', businessData.id)
+            .maybeSingle();
+
+          setHasBusinessProfile(!!profileData);
+
+          // Get application status
           const { data: applicationData } = await supabase
             .from('business_applications')
             .select('*')
@@ -62,6 +74,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             .maybeSingle();
 
           setBusinessApplication(applicationData);
+        } else {
+          setHasBusinessProfile(false);
         }
       }
     } catch (error) {
@@ -79,6 +93,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       .maybeSingle();
 
     if (businessData) {
+      // Check if business profile exists
+      const { data: profileData } = await supabase
+        .from('business_profiles')
+        .select('id')
+        .eq('business_id', businessData.id)
+        .maybeSingle();
+
+      setHasBusinessProfile(!!profileData);
+
+      // Get application status
       const { data: applicationData } = await supabase
         .from('business_applications')
         .select('*')
@@ -210,6 +234,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setSession(null);
     setDbUser(null);
     setBusinessApplication(null);
+    setHasBusinessProfile(false);
   };
 
   return (
@@ -218,6 +243,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       session,
       dbUser,
       businessApplication,
+      hasBusinessProfile,
       isLoading,
       signUp,
       signIn,

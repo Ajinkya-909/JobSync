@@ -51,7 +51,7 @@ interface RecentApplication {
 }
 
 const BusinessDashboard = () => {
-  const { user, dbUser, businessApplication, signOut, isLoading: authLoading } = useAuth();
+  const { user, dbUser, businessApplication, hasBusinessProfile, signOut, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -77,11 +77,12 @@ const BusinessDashboard = () => {
         navigate('/dashboard');
         return;
       }
-      if (businessApplication?.status !== 'approved') {
+      // If profile doesn't exist or application is not approved, redirect to application
+      if (!hasBusinessProfile || businessApplication?.status !== 'approved') {
         navigate('/business/application');
       }
     }
-  }, [user, dbUser, businessApplication, authLoading, navigate]);
+  }, [user, dbUser, businessApplication, hasBusinessProfile, authLoading, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -200,83 +201,72 @@ const BusinessDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
-      <header className="bg-background border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Business Dashboard</h1>
-              <p className="text-sm text-muted-foreground">{dbUser?.email}</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button asChild>
-                <Link to="/business/jobs/new">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Post Job
-                </Link>
-              </Button>
-              <Button variant="outline" onClick={handleSignOut}>
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
-              </Button>
-            </div>
-          </div>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome back! Here's an overview of your hiring activity</p>
         </div>
-      </header>
+        <Link to="/business/jobs/new">
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            Post New Job
+          </Button>
+        </Link>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs md:text-sm font-medium">Total Jobs</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Jobs</CardTitle>
               <Briefcase className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg md:text-2xl font-bold">{stats.totalJobs}</div>
-              <p className="text-xs md:text-sm text-muted-foreground">{stats.activeJobs} active</p>
+              <div className="text-2xl font-bold">{stats.totalJobs}</div>
+              <p className="text-xs text-muted-foreground">{stats.activeJobs} active</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs md:text-sm font-medium">Total Applications</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg md:text-2xl font-bold">{stats.totalApplications}</div>
-              <p className="text-xs md:text-sm text-muted-foreground">{stats.pending} pending review</p>
+              <div className="text-2xl font-bold">{stats.totalApplications}</div>
+              <p className="text-xs text-muted-foreground">{stats.pending} pending review</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs md:text-sm font-medium">Shortlisted</CardTitle>
+              <CardTitle className="text-sm font-medium">Shortlisted</CardTitle>
               <CheckCircle2 className="h-4 w-4 text-success" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg md:text-2xl font-bold text-success">{stats.shortlisted}</div>
-              <p className="text-xs md:text-sm text-muted-foreground">candidates</p>
+              <div className="text-2xl font-bold text-success">{stats.shortlisted}</div>
+              <p className="text-xs text-muted-foreground">candidates</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs md:text-sm font-medium">Response Rate</CardTitle>
+              <CardTitle className="text-sm font-medium">Response Rate</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg md:text-2xl font-bold">
+              <div className="text-2xl font-bold">
                 {stats.totalApplications > 0 
                   ? Math.round(((stats.shortlisted + stats.rejected) / stats.totalApplications) * 100) 
                   : 0}%
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">reviewed applications</p>
+              <p className="text-xs text-muted-foreground">reviewed applications</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Application Funnel */}
-        {stats.totalApplications > 0 && (
-          <Card className="mb-8">
+      {/* Application Funnel */}
+      {stats.totalApplications > 0 && (
+        <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
@@ -288,21 +278,21 @@ const BusinessDashboard = () => {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Pending Review</span>
-                  <span className="font-medium">{stats.pending}</span>
+                  <span className="font-medium">{stats.pending} ({Math.round((stats.pending / stats.totalApplications) * 100)}%)</span>
                 </div>
                 <Progress value={(stats.pending / stats.totalApplications) * 100} className="h-2" />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-success">Shortlisted</span>
-                  <span className="font-medium text-success">{stats.shortlisted}</span>
+                  <span className="font-medium text-success">{stats.shortlisted} ({Math.round((stats.shortlisted / stats.totalApplications) * 100)}%)</span>
                 </div>
                 <Progress value={(stats.shortlisted / stats.totalApplications) * 100} className="h-2 [&>div]:bg-success" />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-destructive">Rejected</span>
-                  <span className="font-medium text-destructive">{stats.rejected}</span>
+                  <span className="font-medium text-destructive">{stats.rejected} ({Math.round((stats.rejected / stats.totalApplications) * 100)}%)</span>
                 </div>
                 <Progress value={(stats.rejected / stats.totalApplications) * 100} className="h-2 [&>div]:bg-destructive" />
               </div>
@@ -310,118 +300,96 @@ const BusinessDashboard = () => {
           </Card>
         )}
 
-        {/* Tabs for Jobs and Applications */}
-        <Tabs defaultValue="jobs" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="jobs">My Job Listings ({jobs.length})</TabsTrigger>
-            <TabsTrigger value="applications">Recent Applications</TabsTrigger>
-          </TabsList>
+      {/* Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Recent Applications */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Applications</CardTitle>
+              <CardDescription>Latest candidates who applied</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {recentApplications.length === 0 ? (
+                <div className="text-center py-8">
+                  <Users className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">No applications yet</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {recentApplications.slice(0, 5).map((app) => (
+                    <div key={app.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">
+                          {app.employee?.profile?.full_name || 'Anonymous'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">{app.job?.title}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {app.match_score && (
+                          <Badge variant="outline" className="text-xs">
+                            {app.match_score}% match
+                          </Badge>
+                        )}
+                        {getStatusBadge(app.status)}
+                      </div>
+                    </div>
+                  ))}
+                  <Link to="/business/jobs">
+                    <Button variant="outline" size="sm" className="w-full mt-2">
+                      View All Applications
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-          <TabsContent value="jobs" className="space-y-4">
-            {jobs.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No Jobs Posted Yet</h3>
-                  <p className="text-muted-foreground mb-4">Create your first job listing to start receiving applications.</p>
-                  <Button asChild>
-                    <Link to="/business/jobs/new">
-                      <Plus className="mr-2 h-4 w-4" />
-                      Post Your First Job
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-3">
-                {jobs.map((job) => (
-                  <Card key={job.id} className="hover:shadow-md transition-shadow">
-                    <CardContent className="py-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-foreground">{job.title}</h3>
-                            {job.is_active ? (
-                              <Badge variant="outline" className="bg-success-muted text-success-muted-foreground border-success/20">Active</Badge>
-                            ) : (
-                              <Badge variant="outline">Inactive</Badge>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-                            <span>{job.location}</span>
-                            <span>•</span>
-                            <span className="capitalize">{job.employment_type}</span>
-                            <span>•</span>
-                            <span className="capitalize">{job.work_type}</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            Posted {new Date(job.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <div className="text-center">
-                            <p className="text-2xl font-bold">{job.applications_count}</p>
-                            <p className="text-xs text-muted-foreground">Applications</p>
-                          </div>
-                          <Button asChild variant="outline" size="sm">
-                            <Link to={`/business/jobs/${job.id}`}>
-                              <Eye className="mr-2 h-4 w-4" />
-                              Manage
-                            </Link>
+          {/* Active Jobs Summary */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Active Job Listings</CardTitle>
+              <CardDescription>Your currently active positions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {jobs.filter(j => j.is_active).length === 0 ? (
+                <div className="text-center py-8">
+                  <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground mb-3">No active jobs</p>
+                  <Link to="/business/jobs/new">
+                    <Button size="sm">Post a Job</Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {jobs.filter(j => j.is_active).slice(0, 5).map((job) => (
+                    <div key={job.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{job.title}</p>
+                        <p className="text-xs text-muted-foreground">{job.location}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary">
+                          <Users className="h-3 w-3 mr-1" />
+                          {job.applications_count}
+                        </Badge>
+                        <Link to={`/business/jobs/${job.id}`}>
+                          <Button variant="ghost" size="sm">
+                            <Eye className="h-4 w-4" />
                           </Button>
-                        </div>
+                        </Link>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="applications" className="space-y-4">
-            {recentApplications.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No Applications Yet</h3>
-                  <p className="text-muted-foreground">Applications will appear here once candidates start applying.</p>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-3">
-                {recentApplications.map((app) => (
-                  <Card key={app.id} className="hover:shadow-md transition-shadow">
-                    <CardContent className="py-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-foreground">
-                            {app.employee?.profile?.full_name || 'Anonymous Applicant'}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            Applied for <span className="font-medium">{app.job?.title}</span>
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {new Date(app.applied_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          {app.match_score && (
-                            <div className="text-right">
-                              <p className="text-xs text-muted-foreground">Match</p>
-                              <p className="font-semibold">{app.match_score}%</p>
-                            </div>
-                          )}
-                          {getStatusBadge(app.status)}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </main>
+                    </div>
+                  ))}
+                  <Link to="/business/jobs">
+                    <Button variant="outline" size="sm" className="w-full mt-2">
+                      View All Jobs
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   allowedRoles,
   requireApproval = false 
 }) => {
-  const { user, dbUser, businessApplication, isLoading } = useAuth();
+  const { user, dbUser, businessApplication, hasBusinessProfile, isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -37,7 +37,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     } else if (dbUser.role === 'employee') {
       return <Navigate to="/employee/dashboard" replace />;
     } else if (dbUser.role === 'business') {
-      if (businessApplication?.status === 'approved') {
+      // Check if business profile exists and is approved
+      if (hasBusinessProfile && businessApplication?.status === 'approved') {
         return <Navigate to="/business/dashboard" replace />;
       } else {
         return <Navigate to="/business/application" replace />;
@@ -48,7 +49,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Business approval check
   if (requireApproval && dbUser.role === 'business') {
-    if (businessApplication?.status !== 'approved') {
+    if (!hasBusinessProfile || businessApplication?.status !== 'approved') {
       return <Navigate to="/business/application" replace />;
     }
   }

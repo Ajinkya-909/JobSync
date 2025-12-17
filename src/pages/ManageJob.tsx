@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Loader2, ChevronLeft, Users, Clock, CheckCircle2, XCircle, 
-  Eye, Briefcase, MapPin, Calendar
+  Eye, Briefcase, MapPin, Calendar, User
 } from 'lucide-react';
 
 interface Job {
@@ -393,26 +393,39 @@ const ManageJob = () => {
                               <div className="flex flex-col gap-2">
                                 {getStatusBadge(app.status)}
                                 
-                                {app.status === 'applied' && (
-                                  <div className="flex gap-1">
+                                <div className="flex gap-1">
+                                  <Link to={`/business/jobs/${id}/applicant/${app.id}`}>
                                     <Button 
                                       size="sm" 
                                       variant="outline"
-                                      className="text-success hover:text-success/90 hover:bg-success-muted"
-                                      onClick={() => updateApplicationStatus(app.id, 'shortlisted')}
+                                      className="h-8 gap-1"
                                     >
-                                      <CheckCircle2 className="h-4 w-4" />
+                                      <User className="h-3 w-3" />
+                                      View
                                     </Button>
-                                    <Button 
-                                      size="sm" 
-                                      variant="outline"
-                                      className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
-                                      onClick={() => updateApplicationStatus(app.id, 'rejected')}
-                                    >
-                                      <XCircle className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                )}
+                                  </Link>
+                                  
+                                  {app.status === 'applied' && (
+                                    <>
+                                      <Button 
+                                        size="sm" 
+                                        variant="outline"
+                                        className="text-success hover:text-success/90 hover:bg-success-muted h-8"
+                                        onClick={() => updateApplicationStatus(app.id, 'shortlisted')}
+                                      >
+                                        <CheckCircle2 className="h-4 w-4" />
+                                      </Button>
+                                      <Button 
+                                        size="sm" 
+                                        variant="outline"
+                                        className="text-destructive hover:text-destructive/90 hover:bg-destructive/10 h-8"
+                                        onClick={() => updateApplicationStatus(app.id, 'rejected')}
+                                      >
+                                        <XCircle className="h-4 w-4" />
+                                      </Button>
+                                    </>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>

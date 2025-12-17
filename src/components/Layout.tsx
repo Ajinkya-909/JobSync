@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import { cn } from '@/lib/utils';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,11 +11,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, className }) => {
   const location = useLocation();
+  const { user } = useAuth();
   
-  // Don't use layout for auth and public pages
+  // Don't show sidebar on auth page
+  // Show sidebar on /jobs page only if user is authenticated
   const shouldShowSidebar = 
-    location.pathname !== '/auth' && 
-    !location.pathname.startsWith('/jobs');
+    location.pathname !== '/auth';
 
   return (
     <div className="flex h-screen w-screen bg-background">

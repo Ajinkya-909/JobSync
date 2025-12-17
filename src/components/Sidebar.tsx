@@ -21,7 +21,8 @@ import {
   MessageSquare,
   Sun,
   Moon,
-  Monitor
+  Monitor,
+  User
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -37,7 +38,16 @@ const Sidebar = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || location.pathname.startsWith(path + '/');
+    // Exact match for the path
+    if (location.pathname === path) return true;
+    
+    // For parent paths, only match if the current path starts with it but isn't a more specific route
+    // This prevents /business/jobs from being active when on /business/jobs/new
+    if (path === '/business/jobs' && location.pathname.startsWith('/business/jobs/')) {
+      return location.pathname === '/business/jobs' || location.pathname.startsWith('/business/jobs?');
+    }
+    
+    return location.pathname.startsWith(path + '/');
   };
 
   const NavLink = ({ to, icon: Icon, label, badge }: any) => (
@@ -70,8 +80,18 @@ const Sidebar = () => {
     </Link>
   );
 
-  // Don't show sidebar on auth and public pages
-  if (!user || !dbUser || location.pathname === '/auth' || location.pathname.startsWith('/jobs')) {
+  // Don't show sidebar on auth page
+  if (location.pathname === '/auth') {
+    return null;
+  }
+
+  // Don't show sidebar on /jobs routes if user is not authenticated
+  if ((!user || !dbUser) && location.pathname.startsWith('/jobs')) {
+    return null;
+  }
+
+  // Don't show sidebar if user is not authenticated on other pages
+  if (!user || !dbUser) {
     return null;
   }
 
@@ -139,14 +159,23 @@ const Sidebar = () => {
                 MY ACTIVITY
               </div>
               <NavLink
-                to="/employee/dashboard"
+                to="/employee/applications"
                 icon={FileText}
                 label="My Applications"
               />
               <NavLink
-                to="/employee/dashboard"
+                to="/employee/saved-jobs"
                 icon={Briefcase}
                 label="Saved Jobs"
+              />
+              
+              <div className={cn('text-xs font-semibold text-muted-foreground px-4 py-2 mt-4', !isOpen && 'hidden')}>
+                SETTINGS
+              </div>
+              <NavLink
+                to="/employee/profile"
+                icon={User}
+                label="My Profile"
               />
             </>
           )}
@@ -162,52 +191,24 @@ const Sidebar = () => {
                 icon={LayoutDashboard}
                 label="Dashboard"
               />
-              
-              <div className={cn('text-xs font-semibold text-muted-foreground px-4 py-2 mt-4', !isOpen && 'hidden')}>
-                JOBS
-              </div>
+              <NavLink
+                to="/business/jobs"
+                icon={Briefcase}
+                label="Jobs Posted"
+              />
               <NavLink
                 to="/business/jobs/new"
                 icon={Plus}
                 label="Post New Job"
               />
-              <NavLink
-                to="/business/dashboard"
-                icon={Briefcase}
-                label="My Jobs"
-              />
-
-              <div className={cn('text-xs font-semibold text-muted-foreground px-4 py-2 mt-4', !isOpen && 'hidden')}>
-                APPLICATIONS
-              </div>
-              <NavLink
-                to="/business/dashboard"
-                icon={Clock}
-                label="Pending"
-              />
-              <NavLink
-                to="/business/dashboard"
-                icon={CheckCircle2}
-                label="Shortlisted"
-              />
-              <NavLink
-                to="/business/dashboard"
-                icon={Users}
-                label="Applicants"
-              />
-
+              
               <div className={cn('text-xs font-semibold text-muted-foreground px-4 py-2 mt-4', !isOpen && 'hidden')}>
                 SETTINGS
               </div>
               <NavLink
-                to="/business/dashboard"
-                icon={BarChart3}
-                label="Analytics"
-              />
-              <NavLink
-                to="/business/dashboard"
-                icon={Settings}
-                label="Profile"
+                to="/business/profile"
+                icon={User}
+                label="My Profile"
               />
             </>
           )}

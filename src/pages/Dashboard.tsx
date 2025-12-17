@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
 
 const Dashboard = () => {
-  const { user, dbUser, businessApplication, isLoading } = useAuth();
+  const { user, dbUser, businessApplication, hasBusinessProfile, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,14 +20,15 @@ const Dashboard = () => {
       } else if (dbUser.role === 'employee') {
         navigate('/employee/dashboard', { replace: true });
       } else if (dbUser.role === 'business') {
-        if (businessApplication?.status === 'approved') {
+        // Check if business profile exists and is approved
+        if (hasBusinessProfile && businessApplication?.status === 'approved') {
           navigate('/business/dashboard', { replace: true });
         } else {
           navigate('/business/application', { replace: true });
         }
       }
     }
-  }, [user, dbUser, businessApplication, isLoading, navigate]);
+  }, [user, dbUser, businessApplication, hasBusinessProfile, isLoading, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">

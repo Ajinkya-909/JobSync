@@ -10,8 +10,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ArrowLeft, ArrowRight, Check, Building2, MapPin, UserCircle, FileText, Users, Info } from 'lucide-react';
+import { Loader2, ArrowLeft, ArrowRight, Check, Building2, MapPin, UserCircle, FileText, Users, Info, Clock } from 'lucide-react';
 import { BusinessApplicationData } from '@/types/database';
+import MinimalHeader from '@/components/MinimalHeader';
+import type { WorkType } from '@/types/database';
 
 const STEPS = [
   { id: 1, title: 'Company Info', icon: Building2 },
@@ -55,7 +57,7 @@ const initialFormData: BusinessApplicationData = {
 };
 
 const BusinessApplication = () => {
-  const { user, dbUser, businessApplication, isLoading, refreshBusinessApplication } = useAuth();
+  const { user, dbUser, businessApplication, hasBusinessProfile, isLoading, refreshBusinessApplication } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -118,6 +120,62 @@ const BusinessApplication = () => {
         ? [...prev.employment_types, type]
         : prev.employment_types.filter(t => t !== type)
     }));
+  };
+
+  // DEV ONLY: Autofill function for testing
+  const handleAutofill = () => {
+    const companies = ['TechCorp', 'InnovateLabs', 'CloudSystems', 'DataDynamics', 'CodeCrafters'];
+    const industries = ['technology', 'finance', 'healthcare', 'education', 'manufacturing'];
+    const cities = ['New York', 'San Francisco', 'London', 'Mumbai', 'Singapore'];
+    const countries = ['USA', 'UK', 'India', 'Singapore', 'Canada'];
+    const states = ['California', 'New York', 'Texas', 'London', 'Maharashtra'];
+    const workTypes: WorkType[] = ['remote', 'onsite', 'hybrid'];
+    const sizes = ['1-10', '11-50', '51-200', '201-500', '500+'];
+    
+    const randomCompany = companies[Math.floor(Math.random() * companies.length)];
+    const randomIndustry = industries[Math.floor(Math.random() * industries.length)];
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+    const randomCountry = countries[Math.floor(Math.random() * countries.length)];
+    const randomState = states[Math.floor(Math.random() * states.length)];
+    const randomWorkType = workTypes[Math.floor(Math.random() * workTypes.length)];
+    const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+    
+    setFormData({
+      legal_company_name: `${randomCompany} Private Limited`,
+      brand_name: randomCompany,
+      company_website: `https://www.${randomCompany.toLowerCase()}.com`,
+      company_email: `hr@${randomCompany.toLowerCase()}.com`,
+      company_phone: `+1 ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 9000 + 1000)}`,
+      industry: randomIndustry,
+      company_size: randomSize,
+      year_founded: String(Math.floor(Math.random() * 30) + 1995),
+      headquarters_address: `${Math.floor(Math.random() * 999 + 1)} Main Street, Suite ${Math.floor(Math.random() * 99 + 1)}`,
+      city: randomCity,
+      state: randomState,
+      country: randomCountry,
+      work_type: randomWorkType,
+      contact_person_name: 'John Doe',
+      contact_designation: 'HR Manager',
+      contact_email: `john.doe@${randomCompany.toLowerCase()}.com`,
+      contact_phone: `+1 ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 9000 + 1000)}`,
+      contact_linkedin: `https://linkedin.com/in/johndoe`,
+      business_registration_number: `REG${Math.floor(Math.random() * 900000 + 100000)}`,
+      gst_tax_id: `GST${Math.floor(Math.random() * 9000000000 + 1000000000)}`,
+      company_linkedin_page: `https://linkedin.com/company/${randomCompany.toLowerCase()}`,
+      roles_hiring_for: 'Software Engineers, Product Managers, UI/UX Designers',
+      expected_monthly_hiring: '6-15',
+      employment_types: ['full-time', 'internship'],
+      salary_range: '$50,000 - $150,000',
+      fresher_friendly: Math.random() > 0.5,
+      company_description: `${randomCompany} is a leading ${randomIndustry} company focused on delivering innovative solutions. We foster a collaborative environment where talent thrives and innovation happens. Our team is dedicated to making a positive impact in the industry.`,
+      reason_for_joining: 'We are looking to expand our team and believe your platform connects us with the right talent.',
+      terms_accepted: true,
+    });
+    
+    toast({
+      title: 'Form Autofilled',
+      description: 'All fields have been filled with random test data.',
+    });
   };
 
   const validateStep = (): boolean => {
@@ -223,32 +281,53 @@ const BusinessApplication = () => {
   }
 
   // Show pending status if application already submitted
-  if (businessApplication?.status === 'pending') {
+  if (hasBusinessProfile && businessApplication?.status === 'pending') {
     return (
-      <div className="min-h-screen bg-muted/30 p-6">
-        <div className="max-w-2xl mx-auto">
-          <Card>
-            <CardHeader className="text-center">
-              <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                <Loader2 className="h-8 w-8 text-primary animate-spin" />
-              </div>
-              <CardTitle className="text-2xl">Application Under Review</CardTitle>
-              <CardDescription>
-                Your business application has been submitted and is currently under review. 
-                You will be notified once it's approved.
-              </CardDescription>
-            </CardHeader>
-          </Card>
+      <>
+        <MinimalHeader />
+        <div className="min-h-[calc(100vh-4rem)] bg-muted/30 p-6 flex items-center justify-center">
+          <div className="max-w-2xl w-full">
+            <Card>
+              <CardHeader className="text-center space-y-4">
+                <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Clock className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">Application Under Review</CardTitle>
+                <CardDescription className="text-base">
+                  Your business application has been submitted and is currently under review by our team. 
+                  You will receive an email notification once your application is approved.
+                </CardDescription>
+                <div className="pt-4 border-t">
+                  <p className="text-sm text-muted-foreground">
+                    Thank you for your patience. This process typically takes 1-3 business days.
+                  </p>
+                </div>
+              </CardHeader>
+            </Card>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 py-8 px-4">
-      <div className="max-w-3xl mx-auto">
+    <>
+      <MinimalHeader />
+      <div className="min-h-[calc(100vh-4rem)] bg-muted/30 py-8 px-4">
+        <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Business Application</h1>
+          <div className="flex items-center justify-center gap-4 mb-2">
+            <h1 className="text-3xl font-bold text-foreground">Business Application</h1>
+            {/* DEV ONLY: Remove before deployment */}
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleAutofill}
+              className="bg-orange-500/10 border-orange-500 text-orange-600 hover:bg-orange-500/20"
+            >
+              Autofill (Dev)
+            </Button>
+          </div>
           <p className="text-muted-foreground">Complete your profile to start posting jobs</p>
         </div>
 
@@ -657,6 +736,7 @@ const BusinessApplication = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 

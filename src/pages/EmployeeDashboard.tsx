@@ -161,7 +161,7 @@ const EmployeeDashboard = () => {
               <h1 className="text-2xl font-bold text-foreground">Employee Dashboard</h1>
               <p className="text-sm text-muted-foreground">{dbUser?.email}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex md:flex-row flex-col items-center gap-3">
               <Button asChild>
                 <Link to="/jobs">
                   <Briefcase className="mr-2 h-4 w-4" />
@@ -170,7 +170,7 @@ const EmployeeDashboard = () => {
               </Button>
               <Button variant="outline" onClick={handleSignOut}>
                 <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
+                Logout
               </Button>
             </div>
           </div>

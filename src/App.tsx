@@ -11,12 +11,18 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
+import SavedJobs from "./pages/SavedJobs";
+import MyApplications from "./pages/MyApplications";
 import BusinessDashboard from "./pages/BusinessDashboard";
 import BusinessApplication from "./pages/BusinessApplication";
 import Jobs from "./pages/Jobs";
 import JobDetail from "./pages/JobDetail";
 import CreateJob from "./pages/CreateJob";
 import ManageJob from "./pages/ManageJob";
+import BusinessJobs from "./pages/BusinessJobs";
+import ApplicantDetail from "./pages/ApplicantDetail";
+import BusinessProfile from "./pages/BusinessProfile";
+import EmployeeProfile from "./pages/EmployeeProfile";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -40,9 +46,9 @@ const App = () => (
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Auth />} />
             
-            {/* Public Job Routes */}
-            <Route path="/jobs" element={<Jobs />} />
-            <Route path="/jobs/:id" element={<JobDetail />} />
+            {/* Public Job Routes - with Layout for authenticated users */}
+            <Route path="/jobs" element={<Layout><Jobs /></Layout>} />
+            <Route path="/jobs/:id" element={<Layout><JobDetail /></Layout>} />
             
             {/* Dashboard redirect */}
             <Route 
@@ -67,15 +73,43 @@ const App = () => (
                 </ProtectedRoute>
               } 
             />
+            <Route 
+              path="/employee/applications" 
+              element={
+                <ProtectedRoute allowedRoles={['employee']}>
+                  <Layout>
+                    <MyApplications />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/employee/saved-jobs" 
+              element={
+                <ProtectedRoute allowedRoles={['employee']}>
+                  <Layout>
+                    <SavedJobs />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/employee/profile" 
+              element={
+                <ProtectedRoute allowedRoles={['employee']}>
+                  <Layout>
+                    <EmployeeProfile />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
 
             {/* Business Routes */}
             <Route 
               path="/business/application" 
               element={
                 <ProtectedRoute allowedRoles={['business']}>
-                  <Layout>
-                    <BusinessApplication />
-                  </Layout>
+                  <BusinessApplication />
                 </ProtectedRoute>
               } 
             />
@@ -85,6 +119,16 @@ const App = () => (
                 <ProtectedRoute allowedRoles={['business']} requireApproval>
                   <Layout>
                     <BusinessDashboard />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/business/jobs" 
+              element={
+                <ProtectedRoute allowedRoles={['business']} requireApproval>
+                  <Layout>
+                    <BusinessJobs />
                   </Layout>
                 </ProtectedRoute>
               } 
@@ -104,7 +148,27 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['business']} requireApproval>
                   <Layout>
-                    <ManageJob />
+                    <ManageJob /> 
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/business/jobs/:jobId/applicant/:applicantId" 
+              element={
+                <ProtectedRoute allowedRoles={['business']} requireApproval>
+                  <Layout>
+                    <ApplicantDetail />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/business/profile" 
+              element={
+                <ProtectedRoute allowedRoles={['business']}>
+                  <Layout>
+                    <BusinessProfile />
                   </Layout>
                 </ProtectedRoute>
               } 
