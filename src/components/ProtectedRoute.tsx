@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  allowedRoles?: ('employee' | 'business')[];
+  allowedRoles?: ('employee' | 'business' | 'admin')[];
   requireApproval?: boolean;
 }
 
@@ -30,9 +30,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Check role permission
-  if (allowedRoles && !allowedRoles.includes(dbUser.role as 'employee' | 'business')) {
+  if (allowedRoles && !allowedRoles.includes(dbUser.role as 'employee' | 'business' | 'admin')) {
     // Redirect to appropriate dashboard
-    if (dbUser.role === 'employee') {
+    if (dbUser.role === 'admin') {
+      return <Navigate to="/admin/dashboard" replace />;
+    } else if (dbUser.role === 'employee') {
       return <Navigate to="/employee/dashboard" replace />;
     } else if (dbUser.role === 'business') {
       if (businessApplication?.status === 'approved') {

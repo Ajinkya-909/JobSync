@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Layout from "@/components/Layout";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
@@ -15,6 +16,13 @@ import JobDetail from "./pages/JobDetail";
 import CreateJob from "./pages/CreateJob";
 import ManageJob from "./pages/ManageJob";
 import NotFound from "./pages/NotFound";
+
+// Admin pages
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminBusinesses from "./pages/admin/AdminBusinesses";
+import AdminJobs from "./pages/admin/AdminJobs";
+import AdminEmployees from "./pages/admin/AdminEmployees";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -29,12 +37,18 @@ const App = () => (
             <Route path="/" element={<Navigate to="/auth" replace />} />
             <Route path="/auth" element={<Auth />} />
             
+            {/* Public Job Routes */}
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
+            
             {/* Dashboard redirect */}
             <Route 
               path="/dashboard" 
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
                 </ProtectedRoute>
               } 
             />
@@ -44,25 +58,31 @@ const App = () => (
               path="/employee/dashboard" 
               element={
                 <ProtectedRoute allowedRoles={['employee']}>
-                  <EmployeeDashboard />
+                  <Layout>
+                    <EmployeeDashboard />
+                  </Layout>
                 </ProtectedRoute>
               } 
             />
 
             {/* Business Routes */}
             <Route 
-              path="/business/dashboard" 
+              path="/business/application" 
               element={
-                <ProtectedRoute allowedRoles={['business']} requireApproval>
-                  <BusinessDashboard />
+                <ProtectedRoute allowedRoles={['business']}>
+                  <Layout>
+                    <BusinessApplication />
+                  </Layout>
                 </ProtectedRoute>
               } 
             />
             <Route 
-              path="/business/application" 
+              path="/business/dashboard" 
               element={
-                <ProtectedRoute allowedRoles={['business']}>
-                  <BusinessApplication />
+                <ProtectedRoute allowedRoles={['business']} requireApproval>
+                  <Layout>
+                    <BusinessDashboard />
+                  </Layout>
                 </ProtectedRoute>
               } 
             />
@@ -70,7 +90,9 @@ const App = () => (
               path="/business/jobs/new" 
               element={
                 <ProtectedRoute allowedRoles={['business']} requireApproval>
-                  <CreateJob />
+                  <Layout>
+                    <CreateJob />
+                  </Layout>
                 </ProtectedRoute>
               } 
             />
@@ -78,14 +100,64 @@ const App = () => (
               path="/business/jobs/:id" 
               element={
                 <ProtectedRoute allowedRoles={['business']} requireApproval>
-                  <ManageJob />
+                  <Layout>
+                    <ManageJob />
+                  </Layout>
                 </ProtectedRoute>
               } 
             />
 
-            {/* Public Job Routes */}
-            <Route path="/jobs" element={<Jobs />} />
-            <Route path="/jobs/:id" element={<JobDetail />} />
+            {/* Admin Routes */}
+            <Route 
+              path="/admin/dashboard" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Layout>
+                    <AdminDashboard />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/businesses" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Layout>
+                    <AdminBusinesses />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/jobs" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Layout>
+                    <AdminJobs />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/employees" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Layout>
+                    <AdminEmployees />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/analytics" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Layout>
+                    <AdminAnalytics />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

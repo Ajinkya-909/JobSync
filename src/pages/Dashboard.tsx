@@ -15,7 +15,9 @@ const Dashboard = () => {
       }
 
       // Redirect based on role
-      if (dbUser.role === 'employee') {
+      if (dbUser.role === 'admin') {
+        navigate('/admin/dashboard', { replace: true });
+      } else if (dbUser.role === 'employee') {
         navigate('/employee/dashboard', { replace: true });
       } else if (dbUser.role === 'business') {
         if (businessApplication?.status === 'approved') {

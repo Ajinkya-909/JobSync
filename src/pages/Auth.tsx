@@ -25,7 +25,9 @@ const Auth = () => {
 
   useEffect(() => {
     if (!isLoading && user && dbUser) {
-      if (dbUser.role === 'employee') {
+      if (dbUser.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (dbUser.role === 'employee') {
         navigate('/dashboard');
       } else if (dbUser.role === 'business') {
         if (businessApplication?.status === 'approved') {
